@@ -4,211 +4,586 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>卡码异步日志存储系统</title>
+    <title>星河云盘 - 安全高效的文件存储</title>
     <style>
         :root {
-            --primary-color: #2c3e50;
-            --secondary-color: #3498db;
-            --background: #f5f6fa;
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --accent: #06b6d4;
+            --bg: #f0f2f7;
             --card-bg: #ffffff;
+            --text: #1e293b;
+            --text-light: #64748b;
+            --border: #e2e8f0;
+            --radius: 16px;
+            --shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         body {
-            background-color: var(--background);
-            padding: 2rem;
+            font-family: 'Inter', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: var(--bg);
+            min-height: 100vh;
+            color: var(--text);
         }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        h1 {
-            text-align: center;
-            color: var(--primary-color);
-            margin-bottom: 2rem;
-            font-size: 2.5rem;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        .upload-section {
-            background: var(--card-bg);
-            border-radius: 10px;
-            padding: 2rem;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            margin-bottom: 2rem;
-        }
-
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 0.5rem;
-            color: var(--primary-color);
-            font-weight: 500;
-        }
-
-        input[type="file"] {
-            border: 2px dashed #ddd;
-            padding: 1rem;
-            width: 100%;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        .storage-type {
-            display: flex;
-            gap: 1rem;
-            margin: 1rem 0;
-        }
-
-        .storage-type label {
-            background: #f0f0f0;
-            padding: 0.8rem 1.5rem;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .storage-type input:checked+label {
-            background: var(--secondary-color);
-            color: white;
-        }
-
-        button {
-            background: var(--secondary-color);
-            color: white;
-            border: none;
-            padding: 0.8rem 1.5rem;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        button:hover {
-            opacity: 0.9;
-            transform: translateY(-2px);
-        }
-
-        .file-list {
-            background: var(--card-bg);
-            border-radius: 10px;
-            padding: 2rem;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        .file-item {
+        /* ========== 顶部导航 ========== */
+        .topbar {
+            background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
+            padding: 16px 40px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 1rem;
-            border-bottom: 1px solid #eee;
+            box-shadow: 0 2px 16px rgba(30, 27, 75, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
 
-        .file-info {
+        .logo {
             display: flex;
-            gap: 1rem;
+            align-items: center;
+            gap: 12px;
+            color: #fff;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--accent), #8b5cf6);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+        }
+
+        .logo-text {
+            font-size: 20px;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .logo-sub {
+            font-size: 11px;
+            opacity: 0.7;
+            font-weight: 400;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-outline-light {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .btn-outline-light:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        /* ========== 主内容区 ========== */
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 32px 24px;
+        }
+
+        /* ========== 上传区域 ========== */
+        .upload-card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 28px;
+            box-shadow: var(--shadow);
+            margin-bottom: 24px;
+        }
+
+        .upload-area {
+            border: 2px dashed #cbd5e1;
+            border-radius: 12px;
+            padding: 28px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: #fafbff;
+        }
+
+        .upload-area:hover {
+            border-color: var(--primary);
+            background: #f5f3ff;
+        }
+
+        .upload-area.drag-over {
+            border-color: var(--accent);
+            background: #ecfeff;
+        }
+
+        .upload-icon {
+            font-size: 44px;
+            margin-bottom: 10px;
+        }
+
+        .upload-text {
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 4px;
+        }
+
+        .upload-hint {
+            font-size: 13px;
+            color: var(--text-light);
+        }
+
+        .storage-toggle {
+            display: flex;
+            gap: 0;
+            margin-top: 16px;
+            background: #f1f5f9;
+            border-radius: 10px;
+            padding: 4px;
+            width: fit-content;
+        }
+
+        .toggle-option {
+            padding: 8px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 500;
+            transition: all 0.2s;
+            color: var(--text-light);
+        }
+
+        .toggle-option.active {
+            background: #fff;
+            color: var(--primary);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            font-weight: 600;
+        }
+
+        .upload-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 16px;
             align-items: center;
         }
 
-        .file-type {
-            background: #eee;
-            padding: 0.3rem 0.8rem;
-            border-radius: 5px;
-            font-size: 0.9rem;
+        .file-chosen {
+            flex: 1;
+            font-size: 14px;
+            color: var(--text-light);
+            padding: 10px 14px;
+            background: #f8fafc;
+            border-radius: 8px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .btn-outline {
+            background: #fff;
+            color: var(--primary);
+            border: 2px solid #e2e8f0;
+        }
+
+        .btn-outline:hover {
+            border-color: var(--primary);
+            background: #f8f7ff;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: #fff;
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.35);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(99, 102, 241, 0.45);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* ========== 文件列表 ========== */
+        .file-table-card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        .file-row {
+            display: flex;
+            align-items: center;
+            padding: 14px 24px;
+            border-bottom: 1px solid #f1f5f9;
+            gap: 12px;
+            transition: background 0.15s;
+        }
+
+        .file-row:hover {
+            background: #f8faff;
+        }
+
+        .file-row:last-child {
+            border-bottom: none;
+        }
+
+        .file-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+
+        .file-icon.pdf {
+            background: #fee2e2;
+            color: #ef4444;
+        }
+
+        .file-icon.image {
+            background: #dbeafe;
+            color: #3b82f6;
+        }
+
+        .file-icon.doc {
+            background: #e0e7ff;
+            color: #6366f1;
+        }
+
+        .file-icon.archive {
+            background: #fef3c7;
+            color: #f59e0b;
+        }
+
+        .file-icon.code {
+            background: #d1fae5;
+            color: #10b981;
+        }
+
+        .file-icon.other {
+            background: #f1f5f9;
+            color: #64748b;
+        }
+
+        .file-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .file-name {
+            font-weight: 500;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-bottom: 2px;
+        }
+
+        .file-meta {
+            font-size: 12px;
+            color: var(--text-light);
+        }
+
+        .file-storage-badge {
+            font-size: 11px;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-weight: 500;
+            flex-shrink: 0;
+        }
+
+        .file-storage-badge.deep {
+            background: #ede9fe;
+            color: #7c3aed;
+        }
+
+        .file-storage-badge.low {
+            background: #dbeafe;
+            color: #2563eb;
+        }
+
+        .btn-download {
+            padding: 8px 16px;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 500;
+            transition: all 0.2s;
+            flex-shrink: 0;
+        }
+
+        .btn-download:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.35);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-light);
+        }
+
+        .empty-state .icon {
+            font-size: 64px;
+            margin-bottom: 16px;
+        }
+
+        .empty-state .title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 8px;
+        }
+
+        .empty-state .desc {
+            font-size: 14px;
+        }
+
+        /* ========== Toast ========== */
+        .toast {
+            position: fixed;
+            top: 24px;
+            right: 24px;
+            background: #1e293b;
+            color: #fff;
+            padding: 14px 24px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 500;
+            z-index: 999;
+            animation: slideIn 0.3s ease;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(120%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        /* ========== 响应式 ========== */
+        @media (max-width: 640px) {
+            .topbar {
+                padding: 12px 16px;
+            }
+            .container {
+                padding: 16px 12px;
+            }
+            .upload-card {
+                padding: 18px;
+            }
+            .upload-actions {
+                flex-wrap: wrap;
+            }
+            .file-row {
+                padding: 12px 16px;
+                flex-wrap: wrap;
+            }
+            .file-meta {
+                display: none;
+            }
         }
     </style>
 </head>
 
 <body>
+    <!-- ==================== 顶部导航 ==================== -->
+    <header class="topbar">
+        <div class="logo">
+            <div class="logo-icon">🌌</div>
+            <div>
+                <div class="logo-text">星河云盘</div>
+                <div class="logo-sub">Galaxy Cloud Storage</div>
+            </div>
+        </div>
+        <button class="btn btn-outline-light" onclick="location.reload()">
+            🔄 刷新
+        </button>
+    </header>
+
+    <!-- ==================== 主内容区 ==================== -->
     <div class="container">
-        <h1>📁卡码异步日志存储系统</h1>
-
-        <div class="upload-section">
-            <div class="form-group">
-                <label>选择文件</label>
-                <input type="file" id="fileInput">
+        <!-- 上传区域 -->
+        <div class="upload-card">
+            <div class="upload-area" id="dropZone">
+                <div class="upload-icon">☁️</div>
+                <div class="upload-text">拖拽文件到此处上传</div>
+                <div class="upload-hint">或点击下方按钮选择文件 · 支持任意格式</div>
             </div>
 
-            <div class="form-group">
-                <label>存储类型</label>
-                <div class="storage-type">
-                    <div>
-                        <input type="radio" name="storageType" id="deepStorage" value="deep" checked>
-                        <label for="deepStorage">深度存储</label>
-                    </div>
-                    <div>
-                        <input type="radio" name="storageType" id="lowStorage" value="low">
-                        <label for="lowStorage">普通存储</label>
-                    </div>
-                </div>
+            <div class="storage-toggle" id="storageToggle">
+                <div class="toggle-option active" data-type="deep">🔐 深度存储</div>
+                <div class="toggle-option" data-type="low">⚡ 普通存储</div>
             </div>
 
-            <button onclick="uploadFile()">
-                ⬆️ 开始上传
-            </button>
+            <div class="upload-actions">
+                <input type="file" id="fileInput" style="display:none;">
+                <button class="btn btn-outline" onclick="document.getElementById('fileInput').click()">
+                    📎 选择文件
+                </button>
+                <div class="file-chosen" id="fileNameDisplay">未选择文件</div>
+                <button class="btn btn-primary" id="uploadBtn" onclick="uploadFile()">
+                    🚀 开始上传
+                </button>
+            </div>
         </div>
 
-        <!-- 文件列表动态插入点 -->
-        {{FILE_LIST}}
+        <!-- 文件列表 -->
+        <div class="file-table-card" id="fileTableCard">
+            {{FILE_LIST}}
+        </div>
     </div>
 
     <script>
-        // 动态配置注入
+        // ============ 配置 ============
         const config = {
             backendUrl: '{{BACKEND_URL}}'
         };
 
+        // ============ DOM 元素 ============
+        const fileInput = document.getElementById('fileInput');
+        const fileNameDisplay = document.getElementById('fileNameDisplay');
+        const dropZone = document.getElementById('dropZone');
+        const uploadBtn = document.getElementById('uploadBtn');
+        const storageToggle = document.getElementById('storageToggle');
+
+        let selectedStorageType = 'deep';
+
+        // ============ 存储类型切换 ============
+        storageToggle.addEventListener('click', (e) => {
+            if (e.target.classList.contains('toggle-option')) {
+                storageToggle.querySelectorAll('.toggle-option').forEach(el => el.classList.remove(
+                    'active'));
+                e.target.classList.add('active');
+                selectedStorageType = e.target.dataset.type;
+            }
+        });
+
+        // ============ 文件选择 ============
+        fileInput.addEventListener('change', () => {
+            if (fileInput.files.length > 0) {
+                fileNameDisplay.textContent = '📄 ' + fileInput.files[0].name;
+            } else {
+                fileNameDisplay.textContent = '未选择文件';
+            }
+        });
+
+        // ============ 拖拽上传 ============
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.classList.add('drag-over');
+        });
+
+        dropZone.addEventListener('dragleave', () => {
+            dropZone.classList.remove('drag-over');
+        });
+
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.classList.remove('drag-over');
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                fileInput.files = files;
+                fileNameDisplay.textContent = '📄 ' + files[0].name;
+            }
+        });
+
+        dropZone.addEventListener('click', () => {
+            fileInput.click();
+        });
+
+        // ============ Toast 通知 ============
+        function showToast(message, duration = 2500) {
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transition = 'opacity 0.3s';
+                setTimeout(() => toast.remove(), 300);
+            }, duration);
+        }
+
+        // ============ 文件上传 ============
         async function uploadFile() {
-            const fileInput = document.getElementById('fileInput');
-            const storageType = document.querySelector('input[name="storageType"]:checked').value;
             const file = fileInput.files[0];
 
             if (!file) {
-                alert('请先选择文件');
+                showToast('⚠️ 请先选择文件');
                 return;
             }
 
-            // // Base64 编码
+            uploadBtn.disabled = true;
+            uploadBtn.textContent = '⏳ 上传中...';
+
             const encodedFilename = btoa(unescape(encodeURIComponent(file.name)));
-            console.log("Base64 编码结果:", encodedFilename);
 
             try {
                 const response = await fetch(`${config.backendUrl}/upload`, {
                     method: 'POST',
                     headers: {
-                        'StorageType': storageType,
-                        'FileName': encodedFilename // 使用 Base64 编码
+                        'StorageType': selectedStorageType,
+                        'FileName': encodedFilename
                     },
                     body: file
                 });
 
                 if (response.ok) {
-                    location.reload();
+                    showToast('✅ 上传成功！');
+                    setTimeout(() => location.reload(), 800);
                 } else {
-                    alert(`上传失败: ${response.status}`);
+                    showToast(`❌ 上传失败: ${response.status}`);
                 }
             } catch (error) {
                 console.error('上传错误:', error);
-                alert('网络连接失败');
+                showToast('❌ 网络连接失败，请检查服务器状态');
+            } finally {
+                uploadBtn.disabled = false;
+                uploadBtn.textContent = '🚀 开始上传';
             }
         }
 
-        function downloadFile(fileId) {
-            window.location = `${config.backendUrl}/download?id=${fileId}`;
+        // ============ 文件下载 ============
+        function downloadFile(url) {
+            window.open(`${config.backendUrl}${url}`, '_blank');
         }
+
+        // ============ 页面初始化 ============
+        console.log('🌌 星河云盘已就绪');
+        console.log('📍 后端地址:', config.backendUrl);
     </script>
 </body>
 

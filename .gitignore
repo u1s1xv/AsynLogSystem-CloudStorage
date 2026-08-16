@@ -1,0 +1,25 @@
+# ===== 编译产物 =====
+*.o
+*.lo
+*.a
+*.so
+!src/server/bundle/libbundle.so
+a.out
+src/server/test
+src/server/gdb_test
+src/client/client
+
+# ===== 日志文件 =====
+*.log
+logfile/
+
+# ===== 运行时数据文件 =====
+storage.data
+storage.dat
+
+# ===== 备份文件 =====
+*.bak
+
+# ===== 测试上传的存储数据 =====
+src/server/deep_storage/
+src/server/low_storage/

@@ -1,4 +1,7 @@
 ﻿#pragma once
+#include <cstring>
+#include <thread>
+#include <chrono>
 #define _CRT_SECURE_NO_WARNINGS
 #include "DataManage.hpp"
 #include <string>
@@ -138,7 +141,7 @@ namespace my_storage {
 						std::cout << a << " upload failed!\n";
 					}
 				}
-				Sleep(1);//avoid waste cpu 
+				std::this_thread::sleep_for(std::chrono::milliseconds(1));//avoid waste cpu 
 			}
 		}
 	};
