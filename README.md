@@ -1,9 +1,7 @@
 
-# C++项目推荐：基于异步日志系统的云存储 | 代码随想录
+# 基于异步日志系统的云存储
 
-> **本项目目前只在[知识星球](https://programmercarl.com/other/kstar.html)答疑并维护**。
-
-这次带大家做一个全新的C++项目：基于异步日志系统的云存储。
+一个 C++ 实战项目：异步日志系统 + 云存储服务（类网盘）。
 
 这个项目主要有两个部分：
 
@@ -25,7 +23,7 @@
 主要是亮点：
 
 * 带大家感受一下，异步日志系统 如何嫁接在另一个系统上
-* 这个项目更丰满，符合星球里 四星的标准！
+* 项目内容更丰满，是一个完整的全栈实战项目（C++ 后端 + Web 前端）
 
 为什么要做这个项目呢。 首先来聊一聊 日志系统的重要性。
 
@@ -37,75 +35,9 @@
 
 也就是说**设计好日志系统 可以嫁接到 所有C++项目里**。
 
-就拿星球里目前的C++项目来举例，例如：
-
-* 基于异步日志系统的 [HTTP服务框架（C++）](https://programmercarl.com/other/project_http.html)
-* 基于异步日志系统的[手撕RPC框架（新项目）（C++）](https://programmercarl.com/other/project_C++RPC.html)
-* 基于异步日志系统的[分布式存储项目（第二版）（C++）](https://programmercarl.com/other/project_fenbushi.html)
-* 基于异步日志系统的[轻量级网络库muduo（第二版）（C++）](https://programmercarl.com/other/project_muduo.html)
-* 基于异步日志系统的[高性能服务器项目（C++）](https://programmercarl.com/other/project_webserver.html)
-
-等等等， 写好异步日志系统，可以嫁接到所有的项目里，为项目添加亮点毕竟所有的项目都需要打日志！
+写好异步日志系统，可以嫁接到所有的项目里，为项目添加亮点，毕竟所有的项目都需要打日志！
 
 **如果感觉你自己的项目没有亮点可说，那么就可以在项目里添加个异步日志系统，增加亮点**！
-
-## 基于异步日志系统的云存储项目精讲
-
-
-该项目的专栏是[知识星球](https://programmercarl.com/other/kstar.html)录友专享的。
-
-项目专栏依然是将 「简历写法」给大家列出来了，大家学完就可以参考这个来写简历：
-
-给出一般写法，适用于 基础不太好的录友写：
-
-<div align="center"><img src='https://file1.kamacoder.com/i/algo/20250325110714.png' width=500 alt=''></img></div>
-
-给出高阶写法，适用于 想冲刺大厂的录友写：
-
-<div align="center"><img src='https://file1.kamacoder.com/i/algo/20250325110743.png' width=500 alt=''></img></div>
-
-做完该项目，面试中大概率会有哪些面试问题，以及如何回答，也列出好了：
-
-<div align="center"><img src='https://file1.kamacoder.com/i/algo/20250325110819.png' width=500 alt=''></img></div>
-
-专栏中的项目面试题都掌握的话，这个项目在面试中基本没问题。
-
-很多录友在做项目的时候，把项目运行起来 就是第一大难点！
-
-不少录友对日志系统还不了解，所以我们先从最基本的日志系统开始讲解，然后再讲异步日志：
-
-<div align="center"><img src='https://file1.kamacoder.com/i/algo/20250325110957.png' width=500 alt=''></img></div>
-
-日志系统主要有四大点：日志记录器、日志级别、日志格式化器、日志输出器 ：
-
-<div align="center"><img src='https://file1.kamacoder.com/i/algo/20250325111033.png' width=500 alt=''></img></div>
-
-接下来再讲 基于异步日志系统的云存储整体框架：
-
-<div align="center"><img src='https://file1.kamacoder.com/i/algo/20250325111140.png' width=500 alt=''></img></div>
-
-图文并茂：
-
-<div align="center"><img src='https://file1.kamacoder.com/i/algo/20250325111217.png' width=500 alt=''></img></div>
-
-我们这个项目是有页面的： （C++项目很少有页面，主要是本项目是云存储，我们从web端上传和下载文件）
-
-<div align="center"><img src='https://file1.kamacoder.com/i/algo/20250325111254.png' width=500 alt=''></img></div>
-
-最后也给出项目的拓展方向，大家如果学有余力，可以自行去拓展，不断深挖：
-
-<div align="center"><img src='https://file1.kamacoder.com/i/algo/20250325111409.png' width=500 alt=''></img></div>
-
-## 答疑
-
-本项目在[知识星球](https://programmercarl.com/other/kstar.html)里为 文字专栏形式，大家不用担心，看不懂，星球里每个项目有专属答疑群，任何问题都可以在群里问，都会得到解答：
-
-![](https://file1.kamacoder.com/i/web/2025-09-26_11-30-13.jpg)
-
-
-## 获取本项目专栏
-
-**本文档仅为星球内部专享，大家可以加入[知识星球](https://programmercarl.com/other/kstar.html)里获取，在星球置顶一**
 
 ---
 
