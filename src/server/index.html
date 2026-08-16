@@ -895,11 +895,18 @@
         }
 
         // 解析后端 ctime 文本（如 "Wed Aug 16 00:00:00 2026\n"）为中文本地时间
+        // 注意：不能依赖 new Date() 宽松解析，该格式（月日 时间 年）在部分浏览器不可靠
         function formatTime(raw) {
-            const t = new Date((raw || '').trim());
-            if (isNaN(t.getTime())) return (raw || '').trim();
+            const text = (raw || '').trim();
+            const m = text.match(/^(\w{3}) (\w{3}) (\d{1,2}) (\d{2}):(\d{2}):(\d{2}) (\d{4})$/);
+            if (!m) return text;
+            const months = { Jan: 0, Feb: 1, Mar: 2, Apr: 3, May: 4, Jun: 5,
+                             Jul: 6, Aug: 7, Sep: 8, Oct: 9, Nov: 10, Dec: 11 };
+            const mon = months[m[2]];
+            if (mon === undefined) return text;
+            const d = new Date(+m[7], mon, +m[3], +m[4], +m[5], +m[6]);
             const pad = (n) => String(n).padStart(2, '0');
-            return `${t.getFullYear()}-${pad(t.getMonth() + 1)}-${pad(t.getDate())} ${pad(t.getHours())}:${pad(t.getMinutes())}:${pad(t.getSeconds())}`;
+            return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
         }
 
         // 根据文件名判断图标类型
