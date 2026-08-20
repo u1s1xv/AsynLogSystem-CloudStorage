@@ -162,6 +162,17 @@ mkdir -p low_storage deep_storage
 
 > ⚠️ 客户端默认连接 `127.0.0.1:8081`（硬编码在 `src/client/Storage.hpp` 顶部 `server_port_g` / `server_ip_g`），上传到远程服务器前请修改这两个常量。
 
+### 4. 运行日志系统示例（体验日志库）
+
+```bash
+cd log_system/examples
+./log_test
+```
+
+运行后日志写入 `log_system/examples/logfile/` 目录（`FileFlush.log` 普通文件 + `RollFile_log*` 滚动文件）。
+
+> 说明：示例中的 ERROR/FATAL 日志会尝试连接 `config.conf` 中配置的备份服务器（`backup_addr`/`backup_port`），未启动备份服务器时控制台会输出"正在尝试重连/connect error"提示，**属正常现象**，不影响本地日志落盘。启动备份服务器（见上方第 2 步）后即可消除。
+
 ## 五、常见问题
 
 | 问题 | 解决方法 |
