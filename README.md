@@ -173,6 +173,38 @@ cd log_system/examples
 
 > 说明：示例中的 ERROR/FATAL 日志会尝试连接 `config.conf` 中配置的备份服务器（`backup_addr`/`backup_port`），未启动备份服务器时控制台会输出"正在尝试重连/connect error"提示，**属正常现象**，不影响本地日志落盘。启动备份服务器（见上方第 2 步）后即可消除。
 
+### 5. 终止服务
+
+```bash
+# ① 查看运行中的服务进程与端口占用
+ss -tlnp | grep 8081        # 查看 8081 端口被哪个进程占用
+ps aux | grep -E "\./test|backup_server|\./client"   # 查看服务端/备份服务器/客户端进程
+
+# ② 按进程名终止
+pkill -f "^\./test"         # 终止服务端
+pkill -f "backup_server"    # 终止备份服务器
+pkill -f "^\./client"       # 终止客户端
+
+# ③ 或按 PID 精确终止（PID 来自第 ① 步）
+kill <PID>
+
+# ④ 确认端口已释放
+ss -tlnp | grep 8081        # 无输出即已终止
+```
+
+> ⚠️ `pkill -f` 按完整命令行匹配，建议用 `^` 锚定开头（如 `"^\./test"`），否则可能误杀命令行中恰好包含该字符串的其他进程。
+
+### 6. 后台守护运行（SSH 断开后仍运行）
+
+```bash
+cd src/server
+setsid nohup env LD_LIBRARY_PATH=./bundle:/usr/local/lib ./test > /tmp/storage_server.log 2>&1 &
+```
+
+- `setsid nohup ... &`：进程脱离终端，关闭 SSH 后服务仍运行
+- 启动输出重定向到 `/tmp/storage_server.log`（服务自身的运行日志在 `src/server/logfile/`）
+- **服务器重启后需重新执行**；如需开机自启，可配置 systemd 服务
+
 ## 五、常见问题
 
 | 问题 | 解决方法 |
